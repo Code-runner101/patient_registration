@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница администратора</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+    <a class="navbar-brand" href="#">Главная</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" href="/patient">Запись пациента</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="#">Поиск пациента</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="/addPatInf">Внесение дополнительных данных</a>
+            </li>
+        </ul>
+    </div>
+</nav>
+<div class="container mt-4">
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Запись пациента</h5>
+            <p class="card-text">Запишите пациента на прием к врачу.</p>
+            <a href="/patient" class="btn btn-primary">Перейти</a>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Поиск пациента</h5>
+            <p class="card-text">Найдите информацию о пациенте.</p>
+            <a href="/admin/searchSinglePatInf" class="btn btn-primary">Перейти</a>
+        </div>
+    </div>
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Внесение дополнительных данных</h5>
+            <p class="card-text">Внесените дополнительные данные о пациенте, чтобы составить документацию.</p>
+            <a href="/admin/addPatInf" class="btn btn-primary">Перейти</a>
+        </div>
+    </div>
+</div>
+<div class="container mt-4">
+    <div class="card mb-4">
+        <div class="card-body">
+            <h5 class="card-title">Активные записи пациентов</h5>
+            <div id="appointments"></div>
+        </div>
+    </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+  $(document).ready(function() {
+      // Получение списка записей при загрузке страницы
+      $.get("/admin/appointments", function(data) {
+          var appointmentsDiv = $("#appointments");
+          data.forEach(function(appointment, index) {
+              appointmentsDiv.append(
+                  '<p>' +
+                  (index + 1) + '. ' +
+                  'Пациент: ' + appointment.patient.regNum + ' ' +
+                  'Врач: ' + appointment.doctor.firstName + ' ' + appointment.doctor.surname + ' ' + appointment.doctor.position + ' ' +
+                  'Дата и время: ' + appointment.schedule.date + ' ' + appointment.schedule.time + ' ' +
+                  '<a href="#" class="btn btn-primary">Завершить</a>' +
+                  '</p>'
+              );
+          });
+      });
+  });
+</script>
+</body>
+</html>

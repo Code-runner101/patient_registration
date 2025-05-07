@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Страница регистрации</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+        .form-container {
+            max-width: 500px;
+            margin: auto;
+        }
+        .error {
+            border: 1px solid red;
+            background-color: #f8d7da;
+            color: #721c24;
+            padding: 10px;
+            margin-top: 10px;
+            display: none;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+  <h1 class="mt-4 mb-3 text-center">Регистрация</h1>
+  <div class="form-container">
+    <div class="row">
+      <div class="col">
+        <form action="/registration" method="post" th:action="@{/registration}">
+          <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
+          <div class="form-group">
+            <label for="regUsername">Имя пользователя</label>
+            <input type="text" class="form-control" id="regUsername" name="regUsername" placeholder="Введите имя пользователя">
+          </div>
+          <div class="form-group">
+            <label for="regPassword">Пароль</label>
+            <input type="password" class="form-control" id="regPassword" name="regPassword" placeholder="Введите пароль">
+          </div>
+          <!-- Здесь можно добавить другие поля регистрации, если это необходимо -->
+          <input type="submit" class="btn btn-success mt-3" value="Зарегистрироваться">
+        </form>
+      </div>
+    </div>
+  </div>
+  <div class="mt-3 text-center">
+    <a href="/login" class="btn btn-link">Вход</a>
+  </div>
+  <div th:if="${error != null}" class="alert alert-danger" role="alert">
+    Имя пользователя уже занято. Пожалуйста, выберите другое имя.
+  </div>
+</div>
+</body>
+</html>

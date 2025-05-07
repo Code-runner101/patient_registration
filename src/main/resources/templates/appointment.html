@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Запись на прием</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+<div class="container">
+  <h1 class="mt-4 mb-4">Запись на прием</h1>
+
+  <form action="/bookAppointment" method="post">
+    <div class="form-group">
+      <label for="doctorSelect">Выберите врача:</label>
+      <select class="form-control" id="doctorSelect" name="doctorId">
+        <!-- Выбор врача -->
+      </select>
+    </div>
+
+    <div class="form-group">
+      <label for="timeSelect">Выберите время:</label>
+      <select class="form-control" id="timeSelect" name="scheduleId">
+        <!-- Выбор времени приема -->
+      </select>
+    </div>
+
+    <button type="submit" class="btn btn-primary">Записаться</button>
+  </form>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
+<script>
+$(document).ready(function() {
+    // Получение списка врачей при загрузке страницы
+    $.get("/doctors", function(data) {
+        var select = $("#doctorSelect");
+        data.forEach(function(doctor) {
+            select.append('<option value="' + doctor.id + '">' + doctor.firstName + ' ' + doctor.surname + '</option>');
+        });
+    });
+
+    // Обновление списка доступного расписания при выборе врача
+    $("#doctorSelect").change(function() {
+        var doctorId = $(this).val();
+        $.get("doctors/schedule/" + doctorId, function(data) {
+            var select = $("#timeSelect");
+            select.empty(); // Очистка списка
+            data.forEach(function(schedule) {
+                select.append('<option value="' + schedule.id + '">' + schedule.appointmentTime + '</option>');
+            });
+        });
+    });
+});
+</script>
+</body>
+</html>

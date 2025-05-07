@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Главная страница пациента</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Главная</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/patient/bookAppointment">Запись к врачу</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<h1 style="padding-top: 80px; padding-bottom: 80px; text-align: center;">Стоматологии столички приветствуют вас!</h1>
+<div class="container mt-4">
+  <div class="card mb-4">
+    <div class="card-body">
+      <h5 class="card-title">Запись к врачу</h5>
+      <p class="card-text">Запишитесь на прием к врачу.</p>
+      <a href="/patient/bookAppointment" class="btn btn-primary">Перейти</a>
+    </div>
+  </div>
+  <div class="container mt-4">
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Мои записи</h5>
+        <div id="appointments"></div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script>
+  $(document).ready(function() {
+      // Получение списка записей при загрузке страницы
+      $.get("/patient/appointments", function(data) {
+          var appointmentsDiv = $("#appointments");
+          data.forEach(function(appointment, index) {
+              appointmentsDiv.append('<p>' + (index + 1) + '. ' + appointment.doctor.firstName + ' ' + appointment.doctor.surname + ' ' + appointment.doctor.position + ' ' + appointment.schedule.date + ' ' + appointment.schedule.time + '</p>');
+          });
+      });
+  });
+</script>
+</body>
+</html>

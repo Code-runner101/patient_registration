@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Студенты</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Comfortaa:wght@300&display=swap" rel="stylesheet">
+  <link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+</head>
+<body>
+<div class="language-selector">
+  <a th:href="@{/change-locale?lang=en}">English</a>
+  <a th:href="@{/change-locale?lang=ru}">Русский</a>
+</div>
+<h1 th:text="#{students.header}">Студенты</h1>
+<table>
+  <tr>
+    <th th:text="#{students.table.surname}">Фамилия</th>
+    <th th:text="#{students.table.firstName}">Имя</th>
+    <th th:text="#{students.table.patronymic}">Отчество</th>
+    <th th:text="#{students.table.work_num}">Количество работ</th>
+    <th th:text="#{students.table.rating}">Рейтинг</th>
+    <th></th>
+    <th></th>
+  </tr>
+  <tr th:each="student, stat : ${students}">
+    <td th:text="${student.surname}"></td>
+    <td th:text="${student.firstName}"></td>
+    <td th:text="${student.patronymic}"></td>
+    <td th:text="${student.work_num}"></td>
+    <td th:text="${student.rating}"></td>
+    <td>
+      <form th:action="@{/students/{id}(id=${student.id})}" th:method="post">
+        <input type="submit" th:value="#{form.delete.button}">
+      </form>
+    </td>
+    <td>
+      <form th:action="@{/students/{id}(id=${student.id})}" th:method="get">
+        <input type="submit" th:value="#{form.inform.button}">
+      </form>
+    </td>
+  </tr>
+</table>
+
+<h2 th:text="#{student.add.header}">Добавить студента</h2>
+<form th:action="@{/students}" method="post">
+  <input type="text" name="surname" th:placeholder="#{form.surname.placeholder}" required>
+  <input type="text" name="firstName" th:placeholder="#{form.firstName.placeholder}" required>
+  <input type="text" name="patronymic" th:placeholder="#{form.patronymic.placeholder}" required>
+  <input type="number" name="work_num" th:placeholder="#{form.work_num.placeholder}" required>
+  <input type="number" name="rating" th:placeholder="#{form.rating.placeholder}" required>
+  <div style="display: flex; justify-content: center;">
+    <input type="submit" th:value="#{form.submit.button}">
+  </div>
+</form>
+</body>
+</html>

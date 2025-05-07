@@ -1,0 +1,114 @@
+h1, h2 {
+    text-align: center;
+}
+
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    text-align: center;
+}
+
+th {
+    background-color: #424949;
+    color: white;
+}
+
+tr:nth-child(n-1) {
+    background-color: #D7DBDD;
+}
+
+tr:nth-child(even) {
+    background-color: #E2E6E8;
+}
+
+tr:hover {
+    background-color: #F2F3F4;
+}
+
+.content {
+    margin: 0 auto;
+    width: 50%;
+    text-align: center;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+}
+
+input[type="text"],
+input[type="time"],
+input[type="date"] {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+p {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 10px;
+    font-size: 26px;
+}
+
+body {
+    font-family: 'Comfortaa', sans-serif;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin: 0;
+    padding-top: 50px;
+    background-color: #FBFBFB;
+}
+
+input[type="password"],
+input[type="text"],
+input[type="date"] {
+    width: 90%;
+    padding: 8px;
+    margin-bottom: 10px;
+}
+
+input[type="submit"] {
+    background-color: #424949;
+    color: white;
+    padding: 10px 20px;
+    cursor: pointer;
+    border-radius: 5px;
+    border-color: #F2F3F4;
+}
+
+input[type="submit"]:hover {
+    background-color: #C3D6C0;
+}
+
+.content {
+    width: 50%;
+    margin: 0 auto;
+}
+
+.login-button {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}
+
+.username {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-color: #9a8c98;
+    padding: 5px 10px;
+    border-radius: 5px;
+}
+
+.language-selector {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+}

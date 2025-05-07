@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title>Внесение дополнительных данных</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style>
+        .required::after {
+            content:" *";
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Внесение дополнительных данных</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNav">
+    <ul class="navbar-nav">
+      <li class="nav-item">
+        <a class="nav-link" href="/admin">Назад</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="/admin">На главную</a>
+      </li>
+    </ul>
+  </div>
+</nav>
+<div class="container">
+  <h2 class="mt-4 mb-3">Информация о пациенте</h2>
+  <table class="table">
+    <tbody>
+    <tr>
+      <th scope="row">Регистрационный номер:</th>
+      <td th:text="${patient.regNum}"></td>
+    </tr>
+    <tr>
+      <th scope="row">Имя:</th>
+      <td th:text="${patient.firstName}"></td>
+    </tr>
+    <tr>
+      <th scope="row">Фамилия:</th>
+      <td th:text="${patient.surname}"></td>
+    </tr>
+    <tr>
+      <th scope="row">Отчество:</th>
+      <td th:text="${patient.patronymic}"></td>
+    </tr>
+    <tr>
+      <th scope="row">Телефон:</th>
+      <td th:text="${patient.phoneNum}"></td>
+    </tr>
+    <tr>
+      <th scope="row">Эл. почта:</th>
+      <td th:text="${patient.email}"></td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+<div class="container">
+  <h2 class="mt-4 mb-3">Внесение дополнительных данных</h2>
+  <form th:action="@{/admin/addPatInf}" th:object="${patient}" method="post" id="patientForm">
+    <div class="form-group">
+      <label>Тип паспорта</label>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="passportType" id="russianPassport" value="russian" checked>
+        <label class="form-check-label" for="russianPassport">
+          Паспорт гражданина РФ
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="passportType" id="foreignPassport" value="foreign">
+        <label class="form-check-label" for="foreignPassport">
+          Паспорт иностранного гражданина
+        </label>
+      </div>
+    </div>
+    <div class="form-group" id="russianPassportData">
+      <label for="passportSeries" class="required">Серия паспорта (4 цифры)</label>
+      <input type="text" class="form-control" id="passportSeries" name="passportSer" placeholder="Введите серию паспорта" required>
+      <label for="russianPassportNum" class="required">Номер паспорта (6 цифр)</label>
+      <input type="text" class="form-control" id="russianPassportNum" name="russianPassportNum" placeholder="Введите номер паспорта" required>
+    </div>
+    <div class="form-group" id="foreignPassportData" style="display: none;">
+      <label for="passportNumberForeign" class="required">Номер паспорта</label>
+      <input type="text" class="form-control" id="passportNumberForeign" name="foreignPassportNum" placeholder="Введите номер паспорта" required>
+      <div style="margin: 5px">
+        <label for="citizenship" class="required">Гражданство</label>
+        <select class="form-control" id="citizenship" name="citizenship" style="width: 200px;" required>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="required">Пол</label>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="gender" id="male" value="male" checked required>
+        <label class="form-check-label" for="male">
+          Мужской
+        </label>
+      </div>
+      <div class="form-check">
+        <input class="form-check-input" type="radio" name="gender" id="female" value="female" required>
+        <label class="form-check-label" for="female">
+          Женский
+        </label>
+      </div>
+    </div>
+    <div class="form-group">
+      <label for="birthdate" class="required">Дата рождения</label>
+      <input type="date" class="form-control" id="birthdate" name="birthdate" required>
+    </div>
+    <input type="hidden" id="finalPassportNum" name="passportNum">
+    <button type="submit" class="btn btn-primary mt-3">Сохранить</button>
+  </form>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+<link href="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/css/select2.min.css" rel="stylesheet" />
+<script src="https://cdn.jsdelivr.net/npm/select2@4.1.0-beta.1/dist/js/select2.min.js"></script>
+<script>
+  $('input[type=radio][name=passportType]').change(function() {
+    if (this.value == 'russian') {
+      $('#russianPassportData').show();
+      $('#foreignPassportData').hide();
+      $('#russianPassportNum').prop('required', true);
+      $('#passportSeries').prop('required', true);
+      $('#passportNumberForeign').prop('required', false);
+      $('#citizenship').prop('required', false);
+    }
+    else if (this.value == 'foreign') {
+      $('#russianPassportData').hide();
+      $('#foreignPassportData').show();
+      $('#russianPassportNum').prop('required', false);
+      $('#passportSeries').prop('required', false);
+      $('#passportNumberForeign').prop('required', true);
+      $('#citizenship').prop('required', true);
+    }
+  });
+</script>
+<script>
+        document.getElementById('passportSeries').addEventListener('input', function (e) {
+            var input = e.target;
+            if (input.value.length != 4) {
+                input.setCustomValidity('Серия паспорта должна состоять из 4 цифр');
+            } else {
+                input.setCustomValidity('');
+            }
+        });
+</script>
+<script>
+  $(document).ready(function() {
+      // Инициализация select2
+      $('#citizenship').select2();
+
+      // Получение списка стран с помощью API и добавление их в выпадающий список
+      $.get('https://namaztimes.kz/ru/api/country', function(data) {
+          for (var id in data) {
+              var countryName = data[id];
+              var option = new Option(countryName, countryName, false, false);
+              $('#citizenship').append(option);
+          }
+      });
+  });
+</script>
+<script>
+    $('#patientForm').on('submit', function() {
+        var passportType = $('input[name="passportType"]:checked').val();
+        if (passportType == 'russian') {
+            var passportNum = $('#russianPassportNum').val();
+        } else if (passportType == 'foreign') {
+            var passportNum = $('#passportNumberForeign').val();
+        }
+        $('#finalPassportNum').val(passportNum);
+
+        // Проверка на заполненность всех обязательных полей
+        if (!$('#passportSeries').val() && passportType == 'russian') {
+            alert('Заполните серию паспорта!');
+            return false;
+        }
+        if (!$('#russianPassportNum').val() && passportType == 'russian') {
+            alert('Заполните номер паспорта!');
+            return false;
+        }
+        if (!$('#passportNumberForeign').val() && passportType == 'foreign') {
+            alert('Заполните номер иностранного паспорта!');
+            return false;
+        }
+        if (!$('#citizenship').val() && passportType == 'foreign') {
+            alert('Выберите гражданство!');
+            return false;
+        }
+        if (!$('#birthdate').val()) {
+            alert('Укажите дату рождения!');
+            return false;
+        }
+    });
+</script>
+</body>
+</html>

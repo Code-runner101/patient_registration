@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <meta charset="UTF-8">
+  <title th:text="#{patient.title}">Пациент</title>
+  <link rel="stylesheet" type="text/css" th:href="@{/style.css}" />
+</head>
+<body>
+<h1 th:text="#{student.header}">Пациент</h1>
+<p><strong>Фамилия:</strong> <span th:text="${student.surname}"></span></p>
+<p><strong>Имя:</strong> <span th:text="${student.firstName}"></span></p>
+<p><strong>Отчество:</strong> <span th:text="${student.patronymic}"></span></p>
+<p><strong>Кол-во работ:</strong> <span th:text="${student.work_num}"></span></p>
+<p><strong>Рейтинг:</strong> <span th:text="${student.rating}"></span></p>
+<a href="/students">Вернуться к списку пациентов</a>
+</body>
+</html>
